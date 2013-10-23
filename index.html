@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" type="text/css" media="all" href="style.css" />
+	<script type="text/javascript" src="jquery.js"></script>
+	<title>Reading XML with jQuery</title>
+     <script>
+     	$(document).ready(function(){
+			$.ajax({
+				type: "GET",
+				url: "http://service.etimetrak.com/timeservice/publish/Attendance.svc/EmployeeList ",
+				dataType: "xml",
+				success: function(xml) {
+					$(xml).find('resultTable').each(function(){
+						var id = $(this).attr('diffgr:id');
+						var AccountEmployeeId = $(this).find('AccountEmployeeId').text();
+						var LastEntryType = $(this).find('LastEntryType').text();
+						var EmployeeImage = $(this).find('EmployeeImage').text();
+						$('<div class="items" id="link_'+id+'"></div>').html('<img src="' + EmployeeImage + '" />').appendTo('#page-wrap');
+						
+					});
+				}
+			});
+		});
+     </script>
+</head>
+<body>
+	<div id="page-wrap">
+     	<h1>List Of Employees</h1>
+     </div>
+</body>
+</html>
